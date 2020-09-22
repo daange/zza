@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			//冒泡排序
+			function bubbleSort(arr){
+				var len = arr.length;
+				for(var i=0; i<len; i++){
+					for(var j=0; j<len-1-i; j++){
+						if(arr[j] > arr[j+1]){     
+							var temp = arr[j+1];
+							arr[j+1] = arr[j];
+							arr[j] = temp;
+						}
+					}
+				}
+				return arr;
+			}
+			
+			//观察者模式
+			var observer = {
+			    // 缓存列表（保存回调函数）
+			    cacheList: {},
+			    
+			    //订阅消息
+				subscribe: function (eventName,callback){
+				        if (!this.cacheList[eventName]) {
+				            this.cacheList[eventName] = [];
+				        }
+				        this.cacheList[eventName].push(callback);
+				    },
+				    //发布消息
+				publish: function (eventName,message){
+						if (!this.cacheList[eventName]) {
+							return; 
+						}
+						this.cacheList[eventName].forEach(function (callback){
+							callback(message);
+						})
+					},
+					// 取消订阅
+				 unsubscribe: function (eventName,callback){
+						if (!eventName) {
+							// 移除所有事件的所有监听
+							this.cacheList = {};
+						} else if (eventName && !callback) {
+							// 移除指定事件的所有监听
+							delete this.cacheList[eventName];
+						} else {
+							// 移除指定事件的指定的监听
+							if (!this.cacheList[eventName]) {
+								return;
+							}
+							// 过滤回调数组，重新设置回调数组
+							this.cacheList[eventName] = this.cacheList[eventName].filter(function (cb){
+								return cb !== callback;
+							});
+						}
+						}
+					// 订阅消息
+					observer.subscribe('A',function (msg){
+						console.log( '收到的消息：' + msg );
+					});
+					// 发布消息
+					observer.publish('A','1111');
+			
+			
+			//数组去重es6
+			let newArr1=Array.from(new Set(arr))
+			let newArr2=[...new Set(arr)]
+		</script>
+	</body>
+</html>
